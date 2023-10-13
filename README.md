@@ -7,6 +7,5 @@ Gli step principali sono:
 * realizzazione del codice
   - creazione dinamica dei pulsanti di comando
   - programmazione comune dell'evento click
-  - ottimizzazione grafica
-  - implementazione di tutte le funzionalità 
+
 
