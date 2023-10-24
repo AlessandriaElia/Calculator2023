@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -108,7 +109,8 @@ namespace Calculator
             switch (clickedButtonStruct.Type)
             {
                 case SymbolType.Number:
-                    if (lblResult.Text == "0" || lastButtonClicked.Type == SymbolType.Operator) lblResult.Text = "";
+                    if (lblResult.Text == "0" || lastButtonClicked.Type == SymbolType.Operator) 
+                        lblResult.Text = "";
                     lblResult.Text += clickedButton.Text;
                     break;
                 case SymbolType.SpecialOperator:
@@ -118,11 +120,15 @@ namespace Calculator
                     if (lastButtonClicked.Type == SymbolType.Operator && clickedButtonStruct.Content != '=')
                     {
                         lastOperator = clickedButtonStruct.Content;
+                        
+
                     }
                     else
                     {
                         ManageOperator(clickedButtonStruct);
+                            writeLabel();
                     }
+                    
                     break;
                 case SymbolType.DecimalPoint:
                     if (lblResult.Text.IndexOf(",") == -1)
@@ -162,6 +168,31 @@ namespace Calculator
             if (clickedButtonStruct.Type != SymbolType.Backspace && clickedButtonStruct.Type != SymbolType.PlusMinusSign)
                 lastButtonClicked = clickedButtonStruct;
         }
+        private void writeLabel()
+        {
+            int cont = 0;
+            if (lastButtonClicked.Type == SymbolType.Number)
+            {
+                if(cont==0)
+                {
+                    if (label1.Text == "")
+                        label1.Text += $"{lblResult.Text} {lastOperator} ";
+                    else
+                    {
+                        label1.Text += $"{operand2} = ";
+                    }
+                    cont++;
+                }
+                else
+                {
+                    label1.Text = "";
+                    label1.Text += $"{result} {lastOperator}";
+                }
+
+                
+
+            }
+        }
 
             private void ClearAll()
         {
@@ -170,6 +201,7 @@ namespace Calculator
             result = 0;
             lastOperator = ' ';
             lblResult.Text = "0";
+            label1.Text = "";
         }
 
         private void ManageSpecialOperator(BtnStruct clickedButtonStruct)
